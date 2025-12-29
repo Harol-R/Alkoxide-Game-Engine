@@ -18,4 +18,23 @@ vec4 :: struct{
  
 
 main :: proc() {
+    window:= window("window",800,400, true)
+    defer close(window)
+
+    square:= createSquare()
+    defer cleanObject(&square)
+    
+
+    shader:= loadShader("fragment.frag","vertex.vert")
+    defer deleteShader(shader)
+
+
+    for !shouldWindowClose(window){
+        pollEvents()
+        
+        renderQ(square,shader)
+        
+        swapBuffers(window)
+        
+    }
 }
