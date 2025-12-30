@@ -4,6 +4,7 @@ import gl "vendor:OpenGL"
 import "core:os"
 import "core:strings"
 import "core:fmt"
+import mt "core:math/linalg/glsl"
 
 
 //creates a Shader program, 
@@ -122,6 +123,10 @@ setShaderValue :: proc(program:u32,name:cstring,value:any){
         v:= (^vec4)(value.data)^
         gl.Uniform4f(location, v.x, v.y, v.z, v.w)
     }
-
+    // matrix 4x4
+    if value.id == typeid_of(mat4){
+        m:= (^mat4)(value.data)^
+        gl.UniformMatrix4fv(location,1, gl.FALSE, &m[0][0])
+    }
 }
 

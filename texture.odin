@@ -4,7 +4,7 @@ import stbi "vendor:stb/image"
 import gl "vendor:OpenGL"
 import "core:fmt"
 
-//Solo imagenes .png
+//Solo imagenes .png, ONLY PNG IMAGES 
 LoadTexture::proc(file_path:cstring,interpolation:bool) -> (texture:u32, success:bool) {
     
     stbi.set_flip_vertically_on_load(1)
@@ -29,7 +29,7 @@ LoadTexture::proc(file_path:cstring,interpolation:bool) -> (texture:u32, success
     }
 
     width, height, nrChannels:i32
-    data:= stbi.load(file_path, &width, &height, &nrChannels,0)
+    data:= stbi.load(file_path, &width, &height, &nrChannels,4)
     defer stbi.image_free(data)
 
     if data == nil{
@@ -43,4 +43,9 @@ LoadTexture::proc(file_path:cstring,interpolation:bool) -> (texture:u32, success
 
     return texture, true
 
+}
+
+deleteTexture :: proc(tex:^u32){
+    gl.DeleteTextures(1,tex)
+    fmt.printfln("TEXTURE CLEANED")
 }

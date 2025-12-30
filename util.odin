@@ -2,6 +2,9 @@ package main
 
 import gl "vendor:OpenGL"
 
+import mt "core:math/linalg/glsl"
+
+mat4 :: mt.mat4
 
 // for some reason this was SOOO HARD to do that i had to use AI for shaders
 vertexAtribute :: proc(location:u32,componentNum:i32,offset_byte:int){

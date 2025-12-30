@@ -61,10 +61,16 @@ window::proc(name:cstring, width, height: c.int, vsync:bool)-> windowHandle{
 }
 */
 
+setBackgroundColor :: proc(red,green,blue,alpha:f32){
+    gl.ClearColor(red, green, blue, alpha)
+}
+
 pollEvents :: proc(){
     glfw.PollEvents()
-    gl.ClearColor(0.9, 0.2, 0.8, 1) // Pink: 0.9, 0.2, 0.8
+    //gl.ClearColor(0.9, 0.2, 0.8, 1) // Pink: 0.9, 0.2, 0.8
     gl.Clear(gl.COLOR_BUFFER_BIT)
+    gl.Enable(gl.BLEND)
+    gl.BlendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA)
 }
 
 close :: proc(win: windowHandle){

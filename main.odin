@@ -18,12 +18,17 @@ vec4 :: struct{
  
 
 main :: proc() {
-    window:= window("window",800,400, true)
+    window:= window("window",800,800, true)
     defer close(window)
 
     square:= createSquare()
-    defer cleanObject(&square)
-    
+    defer cleanSquare(&square)
+
+    image, ok:= LoadTexture("image.png", false)
+    if ok == false{
+        return
+    }
+    defer deleteTexture(&image)
 
     shader:= loadShader("fragment.frag","vertex.vert")
     defer deleteShader(shader)
@@ -31,8 +36,13 @@ main :: proc() {
 
     for !shouldWindowClose(window){
         pollEvents()
+
+        setBackgroundColor(0.9, 0.2, 0.8, 1.0)
+
+        setUvScale(shader,{0.5,0.5})
+        setUvOffset(shader,{0,0.5})
         
-        renderQ(square,shader)
+        renderQ(square,shader,image)
         
         swapBuffers(window)
         
