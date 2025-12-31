@@ -43,26 +43,16 @@ window::proc(name:cstring, width, height: c.int, vsync:bool)-> windowHandle{
 }
 
 
-/*initEvents::proc(){
-    glfw.PollEvents()
-    
-    gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    
-    //activa texturas transparentes & activa face culling
-    gl.Enable(gl.BLEND | gl.CULL_FACE)
-    gl.BlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
-    
-    gl.Enable(gl.DEPTH_TEST)
-    gl.ClearColor(0.2, 0.3, 0.3, 1.0);
-    
-    //configura como Cull Fa
-    gl.CullFace(gl.BACK)
-    gl.FrontFace(gl.CCW)
-}
-*/
 
-setBackgroundColor :: proc(red,green,blue,alpha:f32){
-    gl.ClearColor(red, green, blue, alpha)
+/*https://rgbcolorpicker.com/0-1 
+    Only RBG format
+*/
+setBackgroundColor :: proc(red,green,blue:f32){
+    r:= red/255
+    g:= green/255
+    b:= blue/255
+
+    gl.ClearColor(r, g, b, 1.0)
 }
 
 pollEvents :: proc(){

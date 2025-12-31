@@ -21,7 +21,9 @@ main :: proc() {
     window:= window("window",800,800, true)
     defer close(window)
 
-    square:= createSquare()
+    shader:= loadShader("fragment.frag","vertex.vert")
+
+    square:= createSquare(shader)
     defer cleanSquare(&square)
 
     image, ok:= LoadTexture("image.png", false)
@@ -30,19 +32,23 @@ main :: proc() {
     }
     defer deleteTexture(&image)
 
-    shader:= loadShader("fragment.frag","vertex.vert")
-    defer deleteShader(shader)
+    camera:= camera2d(window)
+
+    uvGridsize:vec2 = {1,1}
 
 
     for !shouldWindowClose(window){
         pollEvents()
-
-        setBackgroundColor(0.9, 0.2, 0.8, 1.0)
-
-        setUvScale(shader,{0.5,0.5})
-        setUvOffset(shader,{0,0.5})
         
-        renderQ(square,shader,image)
+
+        updateCam2d(&camera,window)
+        
+        setBackgroundColor(255, 255, 255)
+
+        renderQ(square,image,uvGridsize,camera)
+
+
+        setUvOffset(shader,uvGridsize,{0,0})
         
         swapBuffers(window)
         
